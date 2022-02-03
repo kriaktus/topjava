@@ -97,6 +97,27 @@
 > - [**Деплой war в Tomcat с Application context**](https://github.com/JavaOPs/topjava/wiki/IDEA#Деплой-war-в-tomcat-application-context-должен-быть-тот-же-что-и-url-приложения-деплоить-надо-war-exploded)
 > - [**Динамическое обновление без передеплоя**](https://github.com/JavaOPs/topjava/wiki/IDEA#Для-динамической-перегрузки-ресурсов-кнопка-нажмите-кнопку-update-resource-on-frame-deactivation)
 
+> Если `packge` выдает ошибку
+```
+[INFO] --- maven-war-plugin:2.2:war (default-war) @ topjava ---
+[WARNING] Error injecting: org.apache.maven.plugin.war.WarMojo
+com.google.inject.ProvisionException: Unable to provision, see the following errors:
+1) Error injecting constructor, java.lang.ExceptionInInitializerError: Cannot access defaults field of Properties
+  at org.apache.maven.plugin.war.WarMojo.<init>(Unknown Source)
+```
+[гуглим по сообщению ошибки](https://stackoverflow.com/questions/66920567/error-injecting-org-apache-maven-plugin-war-warmojo)! Решения:
+- или понизить версию JDK <=14 (на JDK 17 мы мигрируем на 5-м занятии).  
+После смены JDK в `Project Structure...` обязательно `clean` и `Reload` кнопка в maven окошке.   
+- или добавьте после `maven-compiler-plugin`:
+```
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>3.3.2</version>
+</plugin>
+```
+Новые версии JDK уже неправильно работают с war package по умолчанию. Им нужна новая версия упаковки, конфигурим ее плагином. 
+
 #### Apply 1_4_forward_to_redirect.patch
 
 - <a href="http://tomcat.apache.org/">Tomcat Home Page</a>
