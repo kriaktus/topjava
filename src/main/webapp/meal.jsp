@@ -8,7 +8,7 @@
 <body>
 <h3><a href="index.html">Home</a></h3>
 <hr>
-<h2>Edit meals</h2>
+<h2>Add meal/Edit meal</h2>
 
 <form action="meals" method="post">
     <input name="id" type="number" value="${mealToEdit.id}" hidden>

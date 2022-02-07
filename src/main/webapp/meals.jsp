@@ -10,7 +10,7 @@
 <hr>
 <h2>Meals</h2>
 
-<a href="meals?action=CreateOrUpdate&id=0">Add Meal</a>
+<a href="meals?action=create">Add Meal</a>
 <br><br>
 
 <table border="1" cellpadding="5">
@@ -24,15 +24,15 @@
     </thead>
     <tbody>
     <c:forEach var="mealTo" items="${mealToList}">
-        <tr style="${mealTo.excess ? "color: red" : "color: green"}">
-            <td><c:out value="${mealTo.dateTime.format(dateTimeFormatter)}"/></td>
-            <td><c:out value="${mealTo.description}"/></td>
-            <td><c:out value="${mealTo.calories}"/></td>
+        <tr style="color:${mealTo.excess ? "red" : "green"}">
+            <td>${mealTo.dateTime.format(dateTimeFormatter)}</td>
+            <td>${mealTo.description}</td>
+            <td>${mealTo.calories}</td>
             <td>
-                <a href="meals?action=CreateOrUpdate&id=${mealTo.id}">Update</a>
+                <a href="meals?action=update&id=${mealTo.id}">Update</a>
             </td>
             <td>
-                <a href="meals?action=Delete&id=${mealTo.id}">Delete</a>
+                <a href="meals?action=delete&id=${mealTo.id}">Delete</a>
             </td>
         </tr>
     </c:forEach>
