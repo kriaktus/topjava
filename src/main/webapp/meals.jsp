@@ -10,13 +10,16 @@
 <hr>
 <h2>Meals</h2>
 
-<table border="1">
+<a href="meals?action=CreateOrUpdate&id=0">Add Meal</a>
+<br><br>
+
+<table border="1" cellpadding="5">
     <thead>
-    <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Calories</th>
-        <th colspan="2">Action</th>
+    <tr bgcolor="#f0ffff">
+        <th width="120">Date</th>
+        <th width="200">Description</th>
+        <th width="50">Calories</th>
+        <th width="100" colspan="2">Action</th>
     </tr>
     </thead>
     <tbody>
@@ -25,8 +28,12 @@
             <td><c:out value="${mealTo.dateTime.format(dateTimeFormatter)}"/></td>
             <td><c:out value="${mealTo.description}"/></td>
             <td><c:out value="${mealTo.calories}"/></td>
-            <td>Update</td>
-            <td>Delete</td>
+            <td>
+                <a href="meals?action=CreateOrUpdate&id=${mealTo.id}">Update</a>
+            </td>
+            <td>
+                <a href="meals?action=Delete&id=${mealTo.id}">Delete</a>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
