@@ -21,36 +21,41 @@ import java.util.List;
 
 public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
-    private MealDao mealDao = new MemoryBaseMealDao();
+    private MealDao mealDao;
+
+    @Override
+    public void init() throws ServletException {
+        mealDao = new MemoryBaseMealDao();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("MealServlet::doGet");
-        String action = request.getParameter("action") != null ? request.getParameter("action") : "print-meal-list";
-        log.debug("action "+action);
+        String action = request.getParameter("action") != null ? request.getParameter("action").toLowerCase() : "print-meal-list";
+        log.debug("action {}", action);
         switch (action) {
             case "delete": {
-                mealDao.delete(MealsUtil.getIdFromRequest(request));
+                mealDao.delete(getIdFromRequest(request));
                 log.debug("redirect to MealServlet");
                 response.sendRedirect("meals");
                 break;
             }
             case "update": {
-                Meal mealToEdit = mealDao.getById(MealsUtil.getIdFromRequest(request));
+                Meal mealToEdit = mealDao.getById(getIdFromRequest(request));
                 if (mealToEdit == null) {
                     log.error("no meal with such id in DB. redirect to MealServlet");
                     response.sendRedirect("meals");
                     return;
                 }
                 request.setAttribute("mealToEdit", mealToEdit);
-                log.debug("forward to meal.jsp with " + mealToEdit );
+                log.debug("forward to meal.jsp with {}", mealToEdit);
                 request.getRequestDispatcher("meal.jsp").forward(request, response);
                 break;
             }
             case "create": {
                 Meal mealToEdit = new Meal(null, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), null, 0);
                 request.setAttribute("mealToEdit", mealToEdit);
-                log.debug("forward to meal.jsp with " + mealToEdit );
+                log.debug("forward to meal.jsp with {}", mealToEdit);
                 request.getRequestDispatcher("meal.jsp").forward(request, response);
                 break;
             }
@@ -69,12 +74,16 @@ public class MealServlet extends HttpServlet {
         log.debug("MealServlet::doPost");
         request.setCharacterEncoding("UTF-8");
         Meal saveMeal = mealDao.save(new Meal(
-                request.getParameter("id").equals("") ? null : MealsUtil.getIdFromRequest(request),
+                request.getParameter("id").isEmpty() ? null : getIdFromRequest(request),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories"))
         ));
-        log.debug("save meal " + saveMeal + " in DB. redirect to MealServlet");
+        log.debug("save meal {} in DB. redirect to MealServlet", saveMeal);
         response.sendRedirect("meals");
+    }
+
+    private int getIdFromRequest(HttpServletRequest request) {
+        return Integer.parseInt(request.getParameter("id"));
     }
 }

@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MemoryBaseMealDao implements MealDao {
-    private AtomicInteger idCounter = new AtomicInteger(0);
+    private final AtomicInteger idCounter = new AtomicInteger(0);
     private final Map<Integer, Meal> memoryBase = new ConcurrentHashMap<>();
 
     {
@@ -38,11 +38,10 @@ public class MemoryBaseMealDao implements MealDao {
     public Meal save(Meal meal) {
         if (meal.getId() == null) {
             meal.setId(idCounter.incrementAndGet());
-        } else if (!memoryBase.containsKey(meal.getId())) {
-            return null;
+            memoryBase.put(meal.getId(), meal);
+            return meal;
         }
-        memoryBase.put(meal.getId(), meal);
-        return meal;
+        return memoryBase.computeIfPresent(meal.getId(), (k, v) -> meal);
     }
 
     @Override
