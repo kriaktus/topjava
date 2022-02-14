@@ -6,7 +6,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.ValidationUtil;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -19,16 +20,19 @@ public class MealService {
     }
 
     public Meal create(Meal meal, int userId) {
-        ValidationUtil.checkNew(meal);
-        return ValidationUtil.checkNotFoundWithId(repository.save(meal, userId), userId);
+        return repository.save(meal, userId);
     }
 
     public void update(Meal meal, int userId) {
-        ValidationUtil.checkNotFoundWithId(repository.save(meal, userId), userId);
+        ValidationUtil.checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
     public List<Meal> getAll(int userId) {
-        return new ArrayList<>(repository.getAll(userId));
+        return repository.getAll(userId);
+    }
+
+    public List<Meal> getAllWithFilter(int userId, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+        return repository.getAllWithFilter(userId, startDate, endDate, startTime, endTime);
     }
 
     public Meal get(int id, int userId) {

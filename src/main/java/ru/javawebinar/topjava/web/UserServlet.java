@@ -24,7 +24,7 @@ public class UserServlet extends HttpServlet {
         log.debug("UserServlet#doPost");
         String userId = request.getParameter("userId");
         SecurityUtil.setAuthUserId(Integer.parseInt(userId));
-        log.debug("redirect to index.html");
-        response.sendRedirect("index.html");
+        log.debug("redirect to MealServlet");
+        response.sendRedirect("meals");
     }
 }

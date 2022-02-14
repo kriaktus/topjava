@@ -29,20 +29,26 @@
             <tr align="left">
                 <th width="150">От даты (включая)</th>
                 <th width="150">До даты (включая)</th>
-                <th width="100">От времени</th>
-                <th width="100">До времени</th>
+                <th width="100">От времени (включая)</th>
+                <th width="100">До времени (исключая)</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="date" name="startDate"></td>
-                <td><input type="date" name="endDate"></td>
-                <td><input type="time" name="startTime"></td>
-                <td><input type="time" name="endTime"></td>
+                <td><input type="date" name="startDate" value="${param.get("startDate")}"></td>
+                <td><input type="date" name="endDate" value="${param.get("endDate")}"></td>
+                <td><input type="time" name="startTime" value="${param.get("startTime")}"></td>
+                <td><input type="time" name="endTime" value="${param.get("endTime")}"></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">
+                    <a href="meals"><input type="button" value="Отменить"></a>
+                    <input type="submit" value="Отфильтровать">
+                </td>
             </tr>
             </tbody>
         </table>
-        <input type="submit" value="Отфильтровать">
     </form>
 
     <a href="meals?action=create">Add Meal</a>

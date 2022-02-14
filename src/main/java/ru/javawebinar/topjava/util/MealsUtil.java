@@ -18,13 +18,21 @@ public class MealsUtil {
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
     public static final List<Meal> meals = Arrays.asList(
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда на граничное значение", 100, 2),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000, 2),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500, 2),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410, 2)
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 14, 8, 0), "Завтрак (User1)", 500, 1),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 14, 13, 0), "Обед (User1)", 1000, 1),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 14, 20, 0), "Ужин (User1)", 500, 1),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 13, 8, 0), "Завтрак (User1)", 500, 1),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 13, 13, 0), "Обед (User1)", 1000, 1),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 13, 20, 0), "Ужин (User1)", 500, 1),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 13, 23, 0), "Ужин2 (User1)", 100, 1),
+
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 13, 8, 0), "Завтрак (User2)", 400, 2),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 13, 13, 0), "Обед (User2)", 1100, 2),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 13, 20, 0), "Ужин (User2)", 500, 2),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 12, 0, 0), "Еда на граничное значение (User2)", 100, 2),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 12, 10, 0), "Завтрак (User2)", 1000, 2),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 12, 13, 0), "Обед (User2)", 500, 2),
+            new Meal(LocalDateTime.of(2022, Month.FEBRUARY, 12, 20, 0), "Ужин (User2)", 410, 2)
     );
 
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
@@ -32,7 +40,7 @@ public class MealsUtil {
     }
 
     public static List<MealTo> getFilteredTos(Collection<Meal> meals, int caloriesPerDay, LocalTime startTime, LocalTime endTime) {
-        return filterByPredicate(meals, caloriesPerDay, meal -> DateTimeUtil.isBetweenHalfOpen(meal.getTime(), startTime, endTime));
+        return filterByPredicate(meals, caloriesPerDay, meal -> DateTimeUtil.isBetween(meal.getTime(), startTime, endTime, true));
     }
 
     public static List<MealTo> filterByPredicate(Collection<Meal> meals, int caloriesPerDay, Predicate<Meal> filter) {
