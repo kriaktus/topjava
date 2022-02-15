@@ -25,7 +25,6 @@ public class MealRestController {
     public Meal create(Meal meal) {
         log.info("create {}", meal);
         ValidationUtil.checkNew(meal);
-        if (meal.getUserId() == null) meal.setUserId(SecurityUtil.authUserId());
         return service.create(meal, SecurityUtil.authUserId());
     }
 
@@ -41,7 +40,7 @@ public class MealRestController {
         endDate = endDate == null ? LocalDate.MAX : endDate;
         startTime = startTime == null ? LocalTime.MIN : startTime;
         endTime = endTime == null ? LocalTime.MAX : endTime;
-        return MealsUtil.getFilteredTos(service.getAllWithFilter(SecurityUtil.authUserId(), startDate, endDate, startTime, endTime),
+        return MealsUtil.getFilteredTos(service.getAllWithFilter(SecurityUtil.authUserId(), startDate, endDate),
                 SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
     }
 
@@ -53,7 +52,6 @@ public class MealRestController {
     public void update(Meal meal, int id) {
         log.info("update {} with id {}", meal, id);
         ValidationUtil.assureIdConsistent(meal, id);
-        if (meal.getUserId() == null) meal.setUserId(SecurityUtil.authUserId());
         service.update(meal, SecurityUtil.authUserId());
     }
 

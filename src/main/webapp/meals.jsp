@@ -35,10 +35,10 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="date" name="startDate" value="${param.get("startDate")}"></td>
-                <td><input type="date" name="endDate" value="${param.get("endDate")}"></td>
-                <td><input type="time" name="startTime" value="${param.get("startTime")}"></td>
-                <td><input type="time" name="endTime" value="${param.get("endTime")}"></td>
+                <td><input type="date" name="startDate" value="${param.startDate}"></td>
+                <td><input type="date" name="endDate" value="${param.endDate}"></td>
+                <td><input type="time" name="startTime" value="${param.startTime}"></td>
+                <td><input type="time" name="endTime" value="${param.endTime}"></td>
             </tr>
             <tr>
                 <td colspan="2"></td>
