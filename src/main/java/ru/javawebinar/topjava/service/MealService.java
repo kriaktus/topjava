@@ -3,7 +3,6 @@ package ru.javawebinar.topjava.service;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.time.LocalDate;
@@ -31,7 +30,7 @@ public class MealService {
     }
 
     public List<Meal> getAllWithFilter(int userId, LocalDate startDate, LocalDate endDate) {
-        return repository.getAllWithFilter(userId, meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate, false));
+        return repository.getAllWithFilter(userId, startDate, endDate);
     }
 
     public Meal get(int id, int userId) {

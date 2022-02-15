@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.StringUtils;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
@@ -78,10 +79,10 @@ public class MealServlet extends HttpServlet {
                 String endTimeParam = request.getParameter("endTime");
                 request.setAttribute("meals",
                         mealRestController.getAllWithFilter(
-                                startDateParam == null || startDateParam.isEmpty() ? null : LocalDate.parse(startDateParam),
-                                endDateParam == null || endDateParam.isEmpty() ? null : LocalDate.parse(endDateParam),
-                                startTimeParam == null || startTimeParam.isEmpty() ? null : LocalTime.parse(startTimeParam),
-                                endTimeParam == null || endTimeParam.isEmpty() ? null : LocalTime.parse(endTimeParam)
+                                StringUtils.hasLength(startDateParam) ? LocalDate.parse(startDateParam) : null,
+                                StringUtils.hasLength(endDateParam) ? LocalDate.parse(endDateParam) : null,
+                                StringUtils.hasLength(startTimeParam) ? LocalTime.parse(startTimeParam) : null,
+                                StringUtils.hasLength(endTimeParam) ? LocalTime.parse(endTimeParam) : null
                         ));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;

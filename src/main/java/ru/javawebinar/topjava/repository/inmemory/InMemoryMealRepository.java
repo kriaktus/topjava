@@ -5,15 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Repository
@@ -23,9 +24,8 @@ public class InMemoryMealRepository implements MealRepository {
     private final AtomicInteger counter = new AtomicInteger(0);
 
     {
-        for (int i = 0; i < MealsUtil.meals.size(); i++) {
-            save(MealsUtil.meals.get(i), i < 7 ? 1 : 2);
-        }
+        MealsUtil.mealListForUser1.forEach(meal -> save(meal, 1));
+        MealsUtil.mealListForUser2.forEach(meal -> save(meal, 2));
     }
 
     @Override
@@ -56,18 +56,17 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public List<Meal> getAll(int userId) {
         log.info("getAll, userId is {}", userId);
-        return getAllWithFilter(userId, meal -> true);
+        return getAllWithFilter(userId, LocalDate.MIN, LocalDate.MAX);
     }
 
     @Override
-    public List<Meal> getAllWithFilter(int userId, Predicate<Meal> predicate) {
+    public List<Meal> getAllWithFilter(int userId, LocalDate startDate, LocalDate endDate) {
         log.info("getAllWithFilter userId is {}", userId);
         Map<Integer, Meal> mealMap = repository.get(userId);
         return mealMap != null ? mealMap.values().stream()
-                .filter(predicate)
+                .filter(meal -> DateTimeUtil.isBetween(meal.getDate(), startDate, endDate, false))
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList()) :
                 Collections.emptyList();
     }
 }
-
