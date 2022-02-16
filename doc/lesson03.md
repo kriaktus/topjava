@@ -100,7 +100,7 @@
 ### Postgres можно установить локально и/или запустить ее через Docker
 
 --------------
-#### Установка локально:
+### Установка локально:
 
 > **Рекомендуется PostgreSQL 13**
 -  <a href="https://ru.wikipedia.org/wiki/PostgreSQL">PostgreSQL</a>.
@@ -125,7 +125,7 @@ GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
 ```
 
 --------------
-#### Установка через Docker:
+### Установка через Docker:
 Для работы современного ПО часто требуется большая настроенная инфраструктура: RDBMS, NoSQL, Kafka, RabbitMQ и др. Кроме того, концепция микросервисов подразумевает
 запуск каждого сервиса в изолированной среде, их быстрое поднятие и масштабирование. 
 Инструмент [Docker](https://ru.wikipedia.org/wiki/Docker) позволяет «упаковать» приложение со всем его окружением и зависимостями в контейнер, который может быть развёрнут на любой Linux-системе, что делает его незаменимым инструментом разработчика.  
@@ -170,7 +170,7 @@ docker rm topjava_db : удалить
 docker help : справка по командам
 ```
 
-Если Docker установился через Docker Toolbox, он запускается в VirtualBox, необходимо настроить [проброс порта 5432 из VirtualBox на локальную машину](https://losst.ru/probros-portov-virtualbox)  
+Если Docker установился через Docker Toolbox, он запускается в VirtualBox, необходимо настроить [проброс порта 5432 из VirtualBox на локальную машину](https://losst.ru/probros-portov-virtualbox). 
 Проверить postgres порт 5432 можно через
 - Unix: `netstat -an |grep 'LISTENING'`
 - Windows:  `netstat -an |find /i "listening"`  
