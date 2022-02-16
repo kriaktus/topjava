@@ -117,6 +117,8 @@
 
 Вообще, как правило, возвращают `List`, если не просится по коду более общий случай (например возможный `Set` или `Collection`, возвращаемый `Map.values()`). Если возвращается отсортированный список, то `List` будет адекватнее.
 
+> **Вопрос вам (очень важный):** можно ли в `MealRestController` контроллере сделать член класса `private int userId = SecurityUtil.authUserId()` и использовать его в методах контроллера?
+
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 6. [Что такое Spring Framework](https://www.youtube.com/watch?v=megjriLG35I). 
 - [Wiki: Spring Framework](https://ru.wikipedia.org/wiki/Spring_Framework)
 - [JVM Ecosystem Report 2020: Spring](https://snyk.io/blog/spring-dominates-the-java-ecosystem-with-60-using-it-for-their-main-applications/)
