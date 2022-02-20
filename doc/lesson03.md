@@ -257,6 +257,12 @@ docker help : справка по командам
 #### Apply 3_15_fix_servlet.patch
 **Приложение перестало работать, тк. для репозитория мы используем заглушку `JdbcMealRepository`**
 
+#### Apply 3_16_fix_db_and_ignore_test.patch
+- Поправил креденшелы к базе heroku (вверху `postgres.properties`). Напомню, что это запасной вариант и он не будет работать, если базу будут использовать несколько человек будут одновременно. 
+Рекомендую поставить себе docker, на собеседованиях пригодиться.
+- Поставил `@Ignore` в inmomory тестах
+- Удалил TODO в MealRepository
+
 ## ![question](https://cloud.githubusercontent.com/assets/13649199/13672858/9cd58692-e6e7-11e5-905d-c295d2a456f1.png) Ваши вопросы
 > Что такое REST?
 
