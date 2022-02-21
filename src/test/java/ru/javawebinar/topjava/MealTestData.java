@@ -1,72 +1,71 @@
 package ru.javawebinar.topjava;
 
-import org.assertj.core.api.ThrowableAssert;
-import ru.javawebinar.topjava.model.AbstractBaseEntity;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.util.DateTimeUtil;
+import ru.javawebinar.topjava.util.Util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 public class MealTestData {
-    public static final int USER_ID = START_SEQ;
-    public static final List<Meal> USER_MEAL_LIST;
-    public static final List<Meal> USER_FILTERED_FROM_12_TO_13_MEAL_LIST;
-    public static final Meal userMeal10003;
-    public static final Meal userMeal10004;
-    public static final Meal userMeal10005;
-    public static final Meal userMeal10006;
-    public static final Meal userMeal10007;
-    public static final Meal userMeal10008;
-    public static final Meal userMeal10009;
-    public static final int NOT_THIS_USER_MEAL_ID;
+    public static final int TEST_USER_ID = START_SEQ;
+    public static final List<Meal> testUserMealList;
+    public static final List<Meal> testUserFilteredFrom12To13MealList;
+    public static final Meal testUserMeal;
+    public static final int TEST_USER_MEAL_ID;
+    public static final Meal testUserAnotherMeal;
+    public static final Meal anotherUserMeal;
+    public static final int ANOTHER_USER_MEAL_ID = START_SEQ + 10;
 
     static {
-        userMeal10005 = new Meal(100005, LocalDateTime.of(2022, Month.FEBRUARY, 14, 20, 0), "Ужин (User100000)", 500);
-        userMeal10004 = new Meal(100004, LocalDateTime.of(2022, Month.FEBRUARY, 14, 13, 0), "Обед (User100000)", 1000);
-        userMeal10003 = new Meal(100003, LocalDateTime.of(2022, Month.FEBRUARY, 14, 8, 0), "Завтрак (User100000)", 500);
-        userMeal10009 = new Meal(100009, LocalDateTime.of(2022, Month.FEBRUARY, 13, 23, 0), "Ужин2 (User100000)", 100);
-        userMeal10008 = new Meal(100008, LocalDateTime.of(2022, Month.FEBRUARY, 13, 20, 0), "Ужин (User100000)", 500);
-        userMeal10007 = new Meal(100007, LocalDateTime.of(2022, Month.FEBRUARY, 12, 13, 0), "Обед (User100000)", 1000);
-        userMeal10006 = new Meal(100006, LocalDateTime.of(2022, Month.FEBRUARY, 13, 8, 0), "Завтрак (User100000)", 500);
-        NOT_THIS_USER_MEAL_ID = 666;
-        USER_MEAL_LIST = Arrays.asList(userMeal10005, userMeal10004, userMeal10003, userMeal10009, userMeal10008, userMeal10006, userMeal10007);
-        USER_FILTERED_FROM_12_TO_13_MEAL_LIST = Arrays.asList(userMeal10009, userMeal10008, userMeal10006, userMeal10007);
+        testUserMealList = Arrays.asList(
+                new Meal(START_SEQ + 5, LocalDateTime.of(2022, Month.FEBRUARY, 14, 20, 0), "Ужин (User100000)", 500),
+                new Meal(START_SEQ + 4, LocalDateTime.of(2022, Month.FEBRUARY, 14, 13, 0), "Обед (User100000)", 1000),
+                new Meal(START_SEQ + 3, LocalDateTime.of(2022, Month.FEBRUARY, 14, 8, 0), "Завтрак (User100000)", 500),
+                new Meal(START_SEQ + 9, LocalDateTime.of(2022, Month.FEBRUARY, 13, 23, 0), "Ужин2 (User100000)", 100),
+                new Meal(START_SEQ + 8, LocalDateTime.of(2022, Month.FEBRUARY, 13, 20, 0), "Ужин (User100000)", 500),
+                new Meal(START_SEQ + 6, LocalDateTime.of(2022, Month.FEBRUARY, 13, 8, 0), "Завтрак (User100000)", 500),
+                new Meal(START_SEQ + 7, LocalDateTime.of(2022, Month.FEBRUARY, 12, 13, 0), "Обед (User100000)", 1000));
+        testUserFilteredFrom12To13MealList = new ArrayList<>(testUserMealList).stream()
+                .filter(meal -> Util.isBetweenHalfOpen(meal.getDateTime(),
+                        LocalDateTime.of(2022, Month.FEBRUARY, 12, 0, 0),
+                        DateTimeUtil.atStartOfNextDayOrMax(LocalDate.of(2022, Month.FEBRUARY, 13))))
+                .collect(Collectors.toList());
+        testUserMeal = testUserMealList.get(3);
+        TEST_USER_MEAL_ID = testUserMeal.getId();
+        testUserAnotherMeal = testUserMealList.get(4);
+        anotherUserMeal = new Meal(ANOTHER_USER_MEAL_ID, LocalDateTime.of(2022, Month.FEBRUARY, 13, 13, 0), "Обед (User100001)", 1100);
     }
 
     public static Meal getNew() {
         return new Meal(null, LocalDateTime.of(2022, Month.FEBRUARY, 18, 18, 0), "some text", 666);
     }
 
-    public static Meal getUpdated10005() {
-        Meal updatedMeal10005 = new Meal(userMeal10005);
-        updatedMeal10005.setDateTime(LocalDateTime.of(2170, Month.MARCH, 10, 15, 0));
-        updatedMeal10005.setDescription("updated description");
-        updatedMeal10005.setCalories(328);
-        return updatedMeal10005;
+    public static Meal getUpdated() {
+        Meal updatedMeal = new Meal(testUserMeal);
+        updatedMeal.setDateTime(LocalDateTime.of(2170, Month.MARCH, 10, 15, 0));
+        updatedMeal.setDescription("updated description");
+        updatedMeal.setCalories(328);
+        return updatedMeal;
     }
 
-    public static void assertMealsById(Meal actual, Meal expected) {
+    public static void assertMatch(Meal actual, Meal expected) {
         assertThat(actual)
-                .usingComparator(Comparator.comparing(AbstractBaseEntity::getId))
+                .usingRecursiveComparison()
                 .isEqualTo(expected);
     }
 
-    public static void assertMealsById(Iterable<Meal> actual, Iterable<Meal> expected) {
+    public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
         assertThat(actual)
-                .usingElementComparator(Comparator.comparing(AbstractBaseEntity::getId))
+                .usingRecursiveFieldByFieldElementComparator()
                 .isEqualTo(expected);
-    }
-
-    public static void assertThatNotFoundException(ThrowableAssert.ThrowingCallable throwingCallable) {
-        assertThatExceptionOfType(NotFoundException.class)
-                .isThrownBy(throwingCallable);
     }
 }
