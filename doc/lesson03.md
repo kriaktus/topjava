@@ -173,7 +173,7 @@ docker rm topjava_db : удалить
 docker help : справка по командам
 ```
 
-Если Docker установился через Docker Toolbox, он запускается в VirtualBox, необходимо настроить [проброс порта 5432 из VirtualBox на локальную машину](https://losst.ru/probros-portov-virtualbox). 
+Если Docker установился через Docker Toolbox, он запускается в VirtualBox, необходимо настроить [проброс порта 5432 из VirtualBox на локальную машину](https://losst.ru/probros-portov-virtualbox). Порты можно делать одинаковые: Host Post: 5432, Guets Port: 5432
 Проверить postgres порт 5432 можно через
 - Unix: `netstat -an |grep 'LISTENING'`
 - Windows:  `netstat -an |find /i "listening"`  
