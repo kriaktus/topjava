@@ -99,7 +99,7 @@
 -  [Spring Testing](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html)
 
 ### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc6ce-e6e7-11e5-81a9-04fbddb9e488.png) 8. <a href="https://drive.google.com/open?id=0B9Ye2auQ_NsFVlNYczhnSU9JdXc">Базы данных. Обзор NoSQL и Java persistence solution без ORM.</a>
-### Postgres можно установить локально и/или запустить ее через Docker
+### Postgres можно установить локально и/или - РЕКОМЕНДУЕТСЯ через Docker
 
 --------------
 ### Установка локально:
@@ -144,6 +144,7 @@ GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
 ##### Для разных ОС установка Docker отличается
 - для [Windows без поддержки Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/reference/hyper-v-requirements) требуется Docker Toolbox,
 для Windows 10 Pro and Enterprise - Docker Desktop. [Инструкция по проверке виртуализации и установке](https://devconnected.com/how-to-install-docker-on-windows-7-8-10-home-and-pro/)
+- На Windows Home можно поставить Docker Desktop, предварительно [установив WSL2 (Windows Subsystem for Linux)](https://docs.microsoft.com/ru-ru/windows/wsl/install)
 - [Установка для Mac и Linux](https://docs.docker.com/get-started/)
 - [Установка под Ubuntu + команды docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04-ru)
 
