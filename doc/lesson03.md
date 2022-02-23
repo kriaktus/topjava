@@ -219,12 +219,12 @@ docker help : справка по командам
 > - в классе `JdbcTemplate` есть настройки (`queryTimeout/ skipResultsProcessing/ skipUndeclaredResults`) уровня приложения (если они будут меняться, то, скорее всего, везде в приложении).
   Мы можем дополнительно сконфигурировать его в `spring-db.xml` и использовать в конструкторах `NamedParameterJdbcTemplate` и в `SimpleJdbcInsert` вместо `dataSource`.
 
+Для запуска скриптов кликнуть правой мышкой на табе скрипта, выбрать Run и в диалоге добавть чз "+" базу
+![image](https://user-images.githubusercontent.com/11200258/155393771-3331289b-64bf-4c33-b804-b25d55ffb298.png)
+![image](https://user-images.githubusercontent.com/11200258/155394005-6702bd7b-7fa5-411d-93a3-b933c9605211.png)
+
 - Дополнительно:
   - [alishev: Spring Framework. Урок 27: JdbcTemplate](https://www.youtube.com/watch?v=YozbZQ7PxtQ&list=PLAma_mKffTOR5o0WNHnY0mTjKxnCgSXrZ&index=27&ab_channel=alishevalishev)
-
-Если IDEA не видит таблицы/поля, попробуйте поднять флажок `Introspect using JDBC metadata` (у меня все без него работает):
-
-![image](https://user-images.githubusercontent.com/13649199/96332049-9f4af680-106a-11eb-996e-61352d14495a.png)
 
 ![question](https://cloud.githubusercontent.com/assets/13649199/13672858/9cd58692-e6e7-11e5-905d-c295d2a456f1.png) **Вопрос: почему отображение еды не работает?**
 
