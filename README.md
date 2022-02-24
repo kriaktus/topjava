@@ -1,3 +1,5 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f43dbb97459d4b17ae9da45c2459b01d)](https://www.codacy.com/gh/kriaktus/topjava/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kriaktus/topjava&amp;utm_campaign=Badge_Grade)
+
 Java Enterprise Online Project 
 ===============================
 Разработка полнофункционального Spring/JPA Enterprise приложения c авторизацией и правами доступа на основе ролей с использованием наиболее популярных инструментов и технологий Java: Maven, Spring MVC, Security, JPA(Hibernate), REST(Jackson), Bootstrap (css,js), datatables, jQuery + plugins, Java 8 Stream and Time API и хранением в базах данных Postgresql и HSQLDB.
