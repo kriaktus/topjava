@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.repository.jpa;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
@@ -7,7 +8,6 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,38 +28,26 @@ public class JpaMealRepository implements MealRepository {
             entityManager.persist(meal);
             return meal;
         } else {
-            Meal readMeal = entityManager.find(Meal.class, meal.getId());
-            if (readMeal == null || readMeal.getUser().getId() != userId) {
-                return null;
-            } else {
-                return entityManager.merge(meal);
-            }
+            Meal readMeal = get(meal.getId(), userId);
+            return readMeal != null && readMeal.getUser().getId() == userId ? entityManager.merge(meal) : null;
         }
     }
 
     @Override
     @Transactional
     public boolean delete(int id, int userId) {
-        try {
-            return entityManager.createNamedQuery(Meal.DELETE)
-                    .setParameter("id", id)
-                    .setParameter("userId", userId)
-                    .executeUpdate() != 0;
-        } catch (NoResultException e) {
-            return false;
-        }
+        return entityManager.createNamedQuery(Meal.DELETE)
+                .setParameter("id", id)
+                .setParameter("userId", userId)
+                .executeUpdate() != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        try {
-            return entityManager.createNamedQuery(Meal.GET, Meal.class)
-                    .setParameter("id", id)
-                    .setParameter("userId", userId)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+        return DataAccessUtils.singleResult(entityManager.createNamedQuery(Meal.GET, Meal.class)
+                .setParameter("id", id)
+                .setParameter("userId", userId)
+                .getResultList());
     }
 
     @Override

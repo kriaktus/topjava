@@ -45,14 +45,14 @@ public class MealServiceTest {
     public final Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            log.debug("testName: {}, finished in {} ms", description.getMethodName(), runtime(TimeUnit.MILLISECONDS));
-            timeList.add(String.format("%-25s - %-5d", description.getMethodName(), runtime(TimeUnit.MILLISECONDS)));
+            log.debug("testName: {}, finished in {} ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            timeList.add(String.format("%n%-25s - %d ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos)));
         }
     };
 
     @AfterClass
     public static void afterClass() {
-        timeList.forEach(System.out::println);
+        log.debug("Time to run each test: {}", timeList);
     }
 
     @Test
@@ -124,8 +124,8 @@ public class MealServiceTest {
     @Test
     public void getBetweenInclusive() {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(
-                        LocalDate.of(2020, Month.JANUARY, 30),
-                        LocalDate.of(2020, Month.JANUARY, 30), USER_ID),
+                LocalDate.of(2020, Month.JANUARY, 30),
+                LocalDate.of(2020, Month.JANUARY, 30), USER_ID),
                 meal3, meal2, meal1);
     }
 
