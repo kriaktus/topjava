@@ -40,7 +40,7 @@
  - <a href="http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access">Which is better, field or property access?</a>
  - Поправил `equals()` с учетом Lazy-проксирования
    - <a href="http://stackoverflow.com/questions/5031614/the-jpa-hashcode-equals-dilemma">JPA hashCode()/equals() dilemma</a>
-   - <a href="http://blog.xebia.com/advanced-hibernate-proxy-pitfalls/">Hibernate Proxy Pitfalls</a>
+   - <a href="https://xebia.com/advanced-hibernate-proxy-pitfalls">Hibernate Proxy Pitfalls</a>
 
 ------------------------
 > Переопределять `equals()/hashCode()` необходимо, если
