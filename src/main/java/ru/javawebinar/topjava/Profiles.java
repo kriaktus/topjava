@@ -33,6 +33,10 @@ public class Profiles {
         return new String[]{getActiveDbProfile(), getActiveRepositoryProfile()};
     }
 
+    public static String[] getDataJpaWithActiveDbProfileArray() {
+        return new String[]{DATAJPA, getActiveDbProfile()};
+    }
+
     public static String getActiveProfilesString() {
         return String.join(", ", Profiles.getActiveProfilesArray());
     }
