@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 abstract class AbstractJdbcMealRepository<T> implements MealRepository {
-    protected static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
-    protected final JdbcTemplate jdbcTemplate;
-    protected final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    protected final SimpleJdbcInsert insertMeal;
+    private static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
+    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final SimpleJdbcInsert insertMeal;
 
     @Autowired
     public AbstractJdbcMealRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -30,7 +30,7 @@ abstract class AbstractJdbcMealRepository<T> implements MealRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    abstract protected T getRequiredDateFormat(LocalDateTime localDateTime);
+    protected abstract T getRequiredDateFormat(LocalDateTime localDateTime);
 
     @Override
     public Meal save(Meal meal, int userId) {

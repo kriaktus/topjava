@@ -28,16 +28,4 @@ public class Profiles {
     public static String getActiveRepositoryProfile() {
         return REPOSITORY_IMPLEMENTATION;
     }
-
-    public static String[] getActiveProfilesArray() {
-        return new String[]{getActiveDbProfile(), getActiveRepositoryProfile()};
-    }
-
-    public static String[] getDataJpaWithActiveDbProfileArray() {
-        return new String[]{DATAJPA, getActiveDbProfile()};
-    }
-
-    public static String getActiveProfilesString() {
-        return String.join(", ", Profiles.getActiveProfilesArray());
-    }
 }

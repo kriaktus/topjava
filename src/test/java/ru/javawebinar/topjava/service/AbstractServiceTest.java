@@ -6,10 +6,12 @@ import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.javawebinar.topjava.ActiveProfileResolver;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +23,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-abstract class AbstractServicePopulateDbTimeTest {
+@ActiveProfiles(resolver = ActiveProfileResolver.class)
+abstract class AbstractServiceTest {
     private static final Logger log = getLogger("result");
     private static final StringBuilder results = new StringBuilder();
 
