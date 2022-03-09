@@ -18,12 +18,6 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Query(name = Meal.DELETE)
     int deleteByIdAndUserId(@Param("id") int id, @Param("userId") int userId);
 
-    @Transactional
-    @Modifying
-    default Meal save(Meal meal, int userId) {
-        return meal.isNew() || getByIdAndUserId(meal.id(), userId) != null ? save(meal) : null;
-    }
-
     @Query("SELECT m FROM Meal m JOIN m.user WHERE m.id=:id AND m.user.id=:userId")
     Meal getByIdAndUserId(@Param("id") int id, @Param("userId") int userId);
 
