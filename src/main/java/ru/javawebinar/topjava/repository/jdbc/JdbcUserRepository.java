@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -15,20 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 @Transactional(readOnly = true)
 public class JdbcUserRepository implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(JdbcUserRepository.class);
-    private static final RowMapper<User> ROW_MAPPER = new UserRowMapper();
-    private static final JdbcValidator VALIDATOR = JdbcValidator.getInstance();
+    private static final RowMapper<User> ROW_MAPPER = new BeanPropertyRowMapper<>(User.class);
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final SimpleJdbcInsert insertUser;
@@ -38,7 +36,6 @@ public class JdbcUserRepository implements UserRepository {
         this.insertUser = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("users")
                 .usingGeneratedKeyColumns("id");
-
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
@@ -46,7 +43,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     @Transactional
     public User save(User user) {
-        VALIDATOR.validate(user);
+        ValidationUtil.validate(user);
         log.debug("JdbcUserRepository#save user:{}", user);
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
 
@@ -64,12 +61,13 @@ public class JdbcUserRepository implements UserRepository {
         } else {
             return null;
         }
+        List<Role> roleList = List.copyOf(user.getRoles());
         jdbcTemplate.batchUpdate("INSERT INTO user_roles (user_id, role) VALUES (?,?)",
                 new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement ps, int i) throws SQLException {
                         ps.setInt(1, user.id());
-                        ps.setString(2, List.copyOf(user.getRoles()).get(i).toString());
+                        ps.setString(2, roleList.get(i).name());
                     }
 
                     @Override
@@ -77,7 +75,7 @@ public class JdbcUserRepository implements UserRepository {
                         return user.getRoles().size();
                     }
                 });
-        return VALIDATOR.validate(user);
+        return user;
     }
 
     @Override
@@ -91,55 +89,37 @@ public class JdbcUserRepository implements UserRepository {
     public User get(int id) {
         log.trace("JdbcUserRepository#get id:{}", id);
         List<User> users = jdbcTemplate.query("""
-                SELECT u.id, u.name, u.email, u.password, u.calories_per_day, u.enabled, u.registered, STRING_AGG(r.role, ',') as roles
+                SELECT u.*, STRING_AGG(r.role, ',') as roles
                 FROM users u
-                JOIN user_roles r on u.id = r.user_id
+                LEFT JOIN user_roles r on u.id = r.user_id
                 WHERE u.id = ?
                 GROUP BY u.id
                 """, ROW_MAPPER, id);
-        return VALIDATOR.validate(DataAccessUtils.singleResult(users));
+        return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public User getByEmail(String email) {
         log.trace("JdbcUserRepository#getByEmail email:{}", email);
         List<User> users = jdbcTemplate.query("""
-                SELECT u.id, u.name, u.email, u.password, u.calories_per_day, u.enabled, u.registered, STRING_AGG(r.role, ',') as roles
+                SELECT u.*, STRING_AGG(r.role, ',') as roles
                 FROM users u
-                JOIN user_roles r on u.id = r.user_id
+                LEFT JOIN user_roles r on u.id = r.user_id
                 WHERE u.email = ?
                 GROUP BY u.id
                 """, ROW_MAPPER, email);
-        return VALIDATOR.validate(DataAccessUtils.singleResult(users));
+        return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public List<User> getAll() {
         log.trace("JdbcUserRepository#getAll");
-        return VALIDATOR.validate(jdbcTemplate.query("""
-                SELECT u.id, u.name, u.email, u.password, u.calories_per_day, u.enabled, u.registered, STRING_AGG(r.role, ',') as roles
+        return jdbcTemplate.query("""
+                SELECT u.*, STRING_AGG(r.role, ',') as roles
                 FROM users u
                 LEFT JOIN user_roles r on u.id = r.user_id
                 GROUP BY u.id
                 ORDER BY u.name, u.email
-                """, ROW_MAPPER));
-    }
-
-    private static class UserRowMapper implements RowMapper<User> {
-        @Override
-        public User mapRow(ResultSet rs, int columnNumber) throws SQLException {
-            Set<Role> roleSet = new HashSet<>();
-            User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"),
-                    rs.getString("password"), rs.getInt("calories_per_day"), rs.getBoolean("enabled"),
-                    rs.getDate("registered"), roleSet);
-            String rolesString = rs.getString("roles");
-            if (rolesString != null) {
-                for (String role : rolesString.split(",")) {
-                    roleSet.add(Role.valueOf(role));
-                }
-                user.setRoles(roleSet);
-            }
-            return user;
-        }
+                """, ROW_MAPPER);
     }
 }
