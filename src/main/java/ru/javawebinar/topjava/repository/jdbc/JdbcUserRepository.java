@@ -26,7 +26,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class JdbcUserRepository implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(JdbcUserRepository.class);
-    private static final RowMapper<User> ROW_MAPPER = new BeanPropertyRowMapper<>(User.class);
+    private static final RowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final SimpleJdbcInsert insertUser;
@@ -72,7 +72,7 @@ public class JdbcUserRepository implements UserRepository {
 
                     @Override
                     public int getBatchSize() {
-                        return user.getRoles().size();
+                        return roleList.size();
                     }
                 });
         return user;

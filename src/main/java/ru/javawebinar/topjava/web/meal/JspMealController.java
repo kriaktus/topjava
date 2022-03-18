@@ -4,8 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.web.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -21,51 +19,44 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 public class JspMealController extends AbstractMealController {
 
     @GetMapping
-    public String getAll(HttpServletRequest request, Model model) {
-        log.info("JspMealController#getAll");
-        model.addAttribute("meals", MealsUtil.getTos(service.getAll(SecurityUtil.authUserId()), SecurityUtil.authUserCaloriesPerDay()));
+    public String getAll(Model model) {
+        model.addAttribute("meals", getAll());
         return "meals";
     }
 
     @GetMapping("/filter")
     public String getFiltered(HttpServletRequest request, Model model) {
-        log.info("JspMealController#getFiltered");
         LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
         LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
         LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
         LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-        model.addAttribute("meals", MealsUtil.getFilteredTos(
-                service.getBetweenInclusive(startDate, endDate, SecurityUtil.authUserId()),
-                SecurityUtil.authUserCaloriesPerDay(), startTime, endTime));
+        model.addAttribute("meals", getBetween(startDate, startTime, endDate, endTime));
         return "meals";
     }
 
     @GetMapping("/save")
     public String sendToForm(HttpServletRequest request, Model model) {
-        log.info("JspMealController#sendToMealForm id:{}", request.getParameter("id"));
         String paramId = request.getParameter("id");
         Meal meal = paramId == null ?
                 new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                service.get(Integer.parseInt(paramId), SecurityUtil.authUserId());
+                get(Integer.parseInt(paramId));
         model.addAttribute("meal", meal);
         return "mealForm";
     }
 
     @PostMapping
     public String save(@ModelAttribute("meal") Meal meal) {
-        log.info("JspMealController#save meal:{}", meal);
         if (meal.isNew()) {
-            service.create(meal, SecurityUtil.authUserId());
+            create(meal);
         } else {
-            service.update(meal, SecurityUtil.authUserId());
+            update(meal);
         }
         return "redirect:/meals";
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("id") int id) {
-        log.info("JspMealController#delete id:{}", id);
-        service.delete(id, SecurityUtil.authUserId());
+    public String remove(@RequestParam("id") int id) {
+        delete(id);
         return "redirect:/meals";
     }
 }
