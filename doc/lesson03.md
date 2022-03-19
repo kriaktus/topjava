@@ -157,7 +157,7 @@ wsl : запустить Ubuntu
 ```
    sudo service docker status <- проверка статуса
    sudo service docker start  <-старт
-   sudo service docker restart <-старт
+   sudo service docker restart <-рестарт
 ```   
 - [Установка для Mac и Linux](https://docs.docker.com/get-started/)
 - [Установка под Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
