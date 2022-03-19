@@ -146,14 +146,14 @@ GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
 для Windows 10 Pro and Enterprise - Docker Desktop. [Инструкция по проверке виртуализации и установке](https://devconnected.com/how-to-install-docker-on-windows-7-8-10-home-and-pro/)
 - На Windows Home можно поставить Docker Desktop, предварительно [установив WSL2 (Windows Subsystem for Linux)](https://docs.microsoft.com/ru-ru/windows/wsl/install)
 - Убедитесь, что wsl версии 2: возможно понадобится включить в BIOS виртуализацию (гуглится по материнской плате) и [отключить в Windows гипервизор](https://sysadmintips.ru/kak-vykljuchit-virtualizaciju-hyper-v-windows-10.html#Otklucenie_Hyper-V_v_Windows_10_cerez_Programmy_i_komponenty
-Команды из cmd/PoswrShell:
+- Команды из cmd/PoswrShell:
 ```
 wsl -l -v : проверить версию
 wsl --set-version Ubuntu-20.04 2  : поставить версию 2
 wsl : запустить Ubuntu 
 ```
-- [Обновление WSL до версии 2](https://docs.microsoft.com/en-us/windows/wsl/install-manual
 - [Upgrade version from WSL 1 to WSL 2](https://docs.microsoft.com/en-us/windows/wsl/install#upgrade-version-from-wsl-1-to-wsl-2)
+- [Обновление WSL до версии 2](https://docs.microsoft.com/en-us/windows/wsl/install-manual)
 ```
    sudo service docker status <- проверка статуса
    sudo service docker start  <-старт
