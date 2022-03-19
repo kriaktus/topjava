@@ -145,9 +145,18 @@ GRANT ALL PRIVILEGES ON DATABASE topjava TO "user";
 - для [Windows без поддержки Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/reference/hyper-v-requirements) требуется Docker Toolbox,
 для Windows 10 Pro and Enterprise - Docker Desktop. [Инструкция по проверке виртуализации и установке](https://devconnected.com/how-to-install-docker-on-windows-7-8-10-home-and-pro/)
 - На Windows Home можно поставить Docker Desktop, предварительно [установив WSL2 (Windows Subsystem for Linux)](https://docs.microsoft.com/ru-ru/windows/wsl/install)
-- Возможно понадобится включи в BIOS виртуализацию (гуглится по материнской плате) и [отключить в Windows гипервизор](https://sysadmintips.ru/kak-vykljuchit-virtualizaciju-hyper-v-windows-10.html#Otklucenie_Hyper-V_v_Windows_10_cerez_Programmy_i_komponenty)
+- Убедитесь, что wsl версии 2: возможно понадобится включить в BIOS виртуализацию (гуглится по материнской плате) и [отключить в Windows гипервизор](https://sysadmintips.ru/kak-vykljuchit-virtualizaciju-hyper-v-windows-10.html#Otklucenie_Hyper-V_v_Windows_10_cerez_Programmy_i_komponenty)
+```
+wsl -l -v
+wsl --set-default-version 2
+```
+
 - [Установка для Mac и Linux](https://docs.docker.com/get-started/)
-- [Установка под Ubuntu + команды docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04-ru)
+- [Установка под Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+```
+   sudo service docker status
+   sudo service docker restart
+```   
 
 > Docker могут мешать: DrWeb, firewall, анитивирусы
 
