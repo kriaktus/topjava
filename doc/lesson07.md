@@ -330,8 +330,9 @@ JUnit предоставляет нам набор коллбэков — инт
 
 #### Apply 7_10_JUnit5.patch
 
-> - [No need `junit-platform-surefire-provider` dependency in `maven-surefire-plugin`](https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven)
-> - [Наконец пофиксили баг с `@SpringJUnitConfig`](https://youtrack.jetbrains.com/issue/IDEA-166549)
+- [No need `junit-platform-surefire-provider` dependency in `maven-surefire-plugin`](https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven)
+- [Наконец пофиксили баг с `@SpringJUnitConfig`](https://youtrack.jetbrains.com/issue/IDEA-166549)
+- Добавил [`junit-platform-launcher` в pom для запуска JUnit 5 тестов из IDEA](https://youtrack.jetbrains.com/issue/IDEA-231927)
 
 - [JUnit 5 homepage](https://junit.org/junit5)
 - [Overview](https://junit.org/junit5/docs/snapshot/user-guide/#overview)
@@ -397,6 +398,7 @@ JSON...
 </details>
 
 #### Apply 7_11_rest_controller.patch
+> - Переделал URL поиска по email на `/by-email`
 
 - <a href="http://spring-projects.ru/understanding/rest/">Понимание REST</a>
 - <a href="https://ru.wikipedia.org/wiki/JSON">JSON (JavaScript Object Notation)</a>
