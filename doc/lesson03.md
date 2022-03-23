@@ -45,8 +45,8 @@
 
 #### Apply 3_06_HW2_optional_filter.patch
 - [JSP Implicit Objects](https://stackoverflow.com/a/1890462/548473)
-- [Использование data-* атрибутов](https://developer.mozilla.org/ru/docs/Web/Guide/HTML/Using_data_attributes) 
-
+- [Использование data-* атрибутов](https://developer.mozilla.org/ru/docs/Web/Guide/HTML/Using_data_attributes), имена сделал [low-case через дефисы](https://stackoverflow.com/questions/36176474/548473)
+ 
 #### Apply 3_07_HW2_optional_select_user.patch
 
 ### ![question](https://cloud.githubusercontent.com/assets/13649199/13672858/9cd58692-e6e7-11e5-905d-c295d2a456f1.png) Вопросы по HW2
@@ -160,8 +160,9 @@ wsl : запустить Ubuntu
    sudo service docker restart <-рестарт
 ```   
 - [Установка для Mac и Linux](https://docs.docker.com/get-started/)
-- [Установка под Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
-
+- Установка под Ubuntu: ` sudo apt install docker.io`
+  - [How can I use docker without sudo?](https://askubuntu.com/a/477554/1357134)
+  
 > Docker могут мешать: DrWeb, firewall, анитивирусы
 
 После установки у меня не запускался `Docker Quickstart Terminal`, я запустил Docker Toolbox из `Git Bash`:
