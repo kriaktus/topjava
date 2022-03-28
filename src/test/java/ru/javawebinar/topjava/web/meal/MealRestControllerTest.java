@@ -89,17 +89,16 @@ public class MealRestControllerTest extends AbstractControllerTest {
     @Test
     void getBetween() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "filtered")
-                .param("start", "2020-01-30T10:00:00")
-                .param("end", "2020-01-30T20:00:00"))
+                .param("startDate", "2020-01-30")
+                .param("startTime", "10:00:00")
+                .param("endDate", "2020-01-30")
+                .param("endTime", "20:00:00"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(result ->
-                        Assertions.assertEquals(
-                                result.getResponse().getContentAsString(),
-                                JsonUtil.writeValue(
-                                        MealsUtil.getFilteredTos(
-                                                mealService.getBetweenInclusive(LocalDate.of(2020, 1, 30), LocalDate.of(2020, 1, 30), SecurityUtil.authUserId()),
-                                                MealsUtil.DEFAULT_CALORIES_PER_DAY, LocalTime.of(10, 0), LocalTime.of(20, 0))))
+                .andExpect(result -> Assertions.assertEquals(result.getResponse().getContentAsString(),
+                        JsonUtil.writeValue(MealsUtil.getFilteredTos(
+                                mealService.getBetweenInclusive(LocalDate.of(2020, 1, 30), LocalDate.of(2020, 1, 30), SecurityUtil.authUserId()),
+                                MealsUtil.DEFAULT_CALORIES_PER_DAY, LocalTime.of(10, 0), LocalTime.of(20, 0))))
                 );
     }
 }
