@@ -43,11 +43,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result ->
-                        Assertions.assertEquals(
-                                result.getResponse().getContentAsString(),
-                                JsonUtil.writeValue(MealsUtil.getTos(meals, MealsUtil.DEFAULT_CALORIES_PER_DAY)))
-                );
+                .andExpect(MEAL_TO_MATCHER.contentJson(MealsUtil.getTos(meals, MealsUtil.DEFAULT_CALORIES_PER_DAY)));
     }
 
     @Test
@@ -95,10 +91,8 @@ public class MealRestControllerTest extends AbstractControllerTest {
                 .param("endTime", "20:00:00"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(result -> Assertions.assertEquals(result.getResponse().getContentAsString(),
-                        JsonUtil.writeValue(MealsUtil.getFilteredTos(
-                                mealService.getBetweenInclusive(LocalDate.of(2020, 1, 30), LocalDate.of(2020, 1, 30), SecurityUtil.authUserId()),
-                                MealsUtil.DEFAULT_CALORIES_PER_DAY, LocalTime.of(10, 0), LocalTime.of(20, 0))))
-                );
+                .andExpect(MEAL_TO_MATCHER.contentJson(MealsUtil.getFilteredTos(
+                        mealService.getBetweenInclusive(LocalDate.of(2020, 1, 30), LocalDate.of(2020, 1, 30), SecurityUtil.authUserId()),
+                        MealsUtil.DEFAULT_CALORIES_PER_DAY, LocalTime.of(10, 0), LocalTime.of(20, 0))));
     }
 }

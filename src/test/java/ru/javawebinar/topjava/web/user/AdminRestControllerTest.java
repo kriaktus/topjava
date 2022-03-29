@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.web.user;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -40,14 +39,11 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getWithMeals() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "with-meals/" + ADMIN_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID + "/with-meals"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result ->
-                        Assertions.assertEquals(
-                                result.getResponse().getContentAsString(),
-                                JsonUtil.writeValue(userService.getWithMeals(ADMIN_ID))));
+                .andExpect(FULL_COMPARE_USER_MATCHER.contentJson(userService.getWithMeals(ADMIN_ID)));
     }
 
     @Test

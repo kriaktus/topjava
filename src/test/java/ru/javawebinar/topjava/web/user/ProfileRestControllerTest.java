@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.web.user;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -39,10 +38,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(result ->
-                        Assertions.assertEquals(
-                                result.getResponse().getContentAsString(),
-                                JsonUtil.writeValue(userService.getWithMeals(SecurityUtil.authUserId()))));
+                .andExpect(FULL_COMPARE_USER_MATCHER.contentJson(userService.getWithMeals(SecurityUtil.authUserId())));
     }
 
     @Test
@@ -59,7 +55,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-
         USER_MATCHER.assertMatch(userService.get(USER_ID), updated);
     }
 }
