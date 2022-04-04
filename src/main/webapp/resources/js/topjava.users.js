@@ -45,3 +45,11 @@ $(function () {
         })
     );
 });
+
+function setEnable(id, enabled) {
+    $.ajax({
+        type: "POST",
+        url: "admin/users/" + id + "/enable",
+        data: {"enabled":enabled}
+    }).done(updateTable);
+}

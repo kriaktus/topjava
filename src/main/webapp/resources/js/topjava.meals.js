@@ -39,3 +39,21 @@ $(function () {
         })
     );
 });
+
+const mealsBetweenAjaxUrl = "ui/meals/filtered";
+let filterForm;
+
+$(document).ready(function () {
+    filterForm = $('#filterForm');
+});
+
+function clearFilter() {
+    filterForm.find(":input").val("");
+    updateTable();
+}
+
+function getBetween() {
+    $.get(mealsBetweenAjaxUrl, filterForm.serialize(), function(data){
+        ctx.datatableApi.clear().rows.add(data).draw();
+    })
+}

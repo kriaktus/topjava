@@ -17,7 +17,7 @@
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
         </button>
-        <table class="table table-striped" id="datatable">
+        <table class="table" id="datatable">
             <thead>
             <tr>
                 <th><spring:message code="user.name"/></th>
@@ -31,11 +31,13 @@
             </thead>
             <c:forEach items="${requestScope.users}" var="user">
                 <jsp:useBean id="user" type="ru.javawebinar.topjava.model.User"/>
-                <tr id="${user.id}">
+                <tr id="${user.id}" class="${user.enabled ? 'table-success' : 'table-danger'}">
                     <td><c:out value="${user.name}"/></td>
                     <td><a href="mailto:${user.email}">${user.email}</a></td>
                     <td>${user.roles}</td>
-                    <td><input type="checkbox" <c:if test="${user.enabled}">checked</c:if>/></td>
+                    <td>
+                        <input type="checkbox" <c:if test="${user.enabled}">checked</c:if> onclick="setEnable($(this).closest('tr').attr('id'), checked)"/>
+                    </td>
                     <td><fmt:formatDate value="${user.registered}" pattern="dd-MMMM-yyyy"/></td>
                     <td><a><span class="fa fa-pencil"></span></a></td>
                     <td><a class="delete"><span class="fa fa-remove"></span></a></td>
