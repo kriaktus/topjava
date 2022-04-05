@@ -46,7 +46,7 @@
                     <span class="fa fa-remove"></span> <spring:message code="common.cancel"/>
                 </button>
                 <button class="btn btn-primary"
-                        onclick="getBetween()">
+                        onclick="ctx.updateTable()">
                     <span class="fa fa-filter"></span> <spring:message code="meal.filter"/>
                 </button>
             </div>

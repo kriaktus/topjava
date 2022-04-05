@@ -48,8 +48,10 @@ $(function () {
 
 function setEnable(id, enabled) {
     $.ajax({
-        type: "POST",
-        url: "admin/users/" + id + "/enable",
-        data: {"enabled":enabled}
-    }).done(updateTable);
+        type: "PATCH",
+        url: userAjaxUrl + id + "?enabled=" + enabled
+    }).done(function () {
+        $("tr#"+id)[0].className = enabled ? "table-success" : "table-danger";
+        successNoty(enabled ? "Enabled" : "Disabled");
+    })
 }

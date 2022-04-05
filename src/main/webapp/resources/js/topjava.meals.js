@@ -1,4 +1,6 @@
 const mealsAjaxUrl = "ui/meals/";
+const mealsBetweenAjaxUrl = mealsAjaxUrl + "filtered";
+let filterForm;
 
 // https://stackoverflow.com/a/5064235/548473
 const ctx = {
@@ -7,6 +9,7 @@ const ctx = {
 
 // $(document).ready(function () {
 $(function () {
+    filterForm = $('#filterForm');
     makeEditable(
         $("#datatable").DataTable({
             "paging": false,
@@ -38,22 +41,12 @@ $(function () {
             ]
         })
     );
-});
-
-const mealsBetweenAjaxUrl = "ui/meals/filtered";
-let filterForm;
-
-$(document).ready(function () {
-    filterForm = $('#filterForm');
+    ctx.updateTable = (function getBetween() {
+        $.get(mealsBetweenAjaxUrl, filterForm.serialize(), ctx.updateTableByData)
+    });
 });
 
 function clearFilter() {
-    filterForm.find(":input").val("");
-    updateTable();
-}
-
-function getBetween() {
-    $.get(mealsBetweenAjaxUrl, filterForm.serialize(), function(data){
-        ctx.datatableApi.clear().rows.add(data).draw();
-    })
+    filterForm[0].reset();
+    $.get(mealsAjaxUrl, ctx.updateTableByData);
 }

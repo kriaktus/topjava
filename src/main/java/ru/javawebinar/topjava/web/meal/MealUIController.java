@@ -20,6 +20,7 @@ public class MealUIController extends AbstractMealController {
         return super.getAll();
     }
 
+    @Override
     @GetMapping("/filtered")
     public List<MealTo> getBetween(@RequestParam(required = false) LocalDate startDate,
                                    @RequestParam(required = false) LocalTime startTime,
