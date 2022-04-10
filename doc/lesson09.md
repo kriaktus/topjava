@@ -207,7 +207,6 @@ JSON.
 
 #### Apply 9_07_datatable_via_ajax.patch
 
-**Внимание - патч обновил, `topjava.users.js`, стр.89: `data-userEnabled` -> `data-user-enabled`**
 > - Перешли на [параметры Datatables в формате 1.10](https://datatables.net/upgrade/1.10-convert)
 > - В `makeEditable()` больше нет манипуляций c DOM, которые требуются делать ПОСЛЕ отработки плагина `datatables`, поэтому нам не обязательно вызывать ее в коллбэке `initComplete`. Отображения строки меняем в параметре конфигурации `createdRow`
 
