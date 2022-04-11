@@ -18,6 +18,17 @@ function clearFilter() {
 }
 
 $(function () {
+    $('.datetimepicker').datetimepicker({
+        format: 'Y-m-d H:i'
+    });
+    $('.datepicker').datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d'
+    });
+    $('.timepicker').datetimepicker({
+        datepicker: false,
+        format: 'H:i'
+    });
     makeEditable(
         $("#datatable").DataTable({
             "ajax": {

@@ -10,6 +10,18 @@ function makeEditable(datatableApi) {
 
     // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
     $.ajaxSetup({cache: false});
+
+    $.ajaxSetup({
+        converters: {
+            "text json": function (result) {
+                let json = JSON.parse(result);
+                if (json != null && json.hasOwnProperty("dateTime")) {
+                    json.dateTime = json.dateTime.replace("T", " ").substring(0, 16);
+                }
+                return json;
+            }
+        }
+    });
 }
 
 function add() {

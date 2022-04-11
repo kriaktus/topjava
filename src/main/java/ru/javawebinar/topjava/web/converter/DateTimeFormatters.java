@@ -15,7 +15,7 @@ public class DateTimeFormatters {
 
         @Override
         public LocalDateTime parse(String text, Locale locale) {
-            return LocalDateTime.parse(text);
+            return LocalDateTime.parse(text, DateTimeUtil.DATE_TIME_FORMATTER);
         }
 
         @Override
