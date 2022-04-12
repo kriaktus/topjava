@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
-import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.ValidationUtil;
 
 import javax.validation.Valid;
@@ -25,12 +25,10 @@ public class MealUIController extends AbstractMealController {
         return super.getAll();
     }
 
+    @Override
     @GetMapping("/{id}")
-    public MealTo getMealToById(@PathVariable int id) {
-        return getAll().stream()
-                .filter(mealTo -> mealTo.id() == id)
-                .findFirst()
-                .orElse(null);
+    public Meal get(@PathVariable int id) {
+        return super.get(id);
     }
 
     @Override
@@ -42,12 +40,12 @@ public class MealUIController extends AbstractMealController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> createOrUpdate(@Valid MealTo mealto, BindingResult result) {
-        if (result.hasErrors()) return ValidationUtil.getValidationErrorMessage(result);
-        if (mealto.isNew()) {
-            super.create(MealsUtil.createNewFromTo(mealto));
+    public ResponseEntity<String> createOrUpdate(@Valid Meal meal, BindingResult result) {
+        if (result.hasErrors()) return ValidationUtil.getErrorResponseEntity(result);
+        if (meal.isNew()) {
+            super.create(meal);
         } else {
-            super.update(MealsUtil.createNewFromTo(mealto), mealto.id());
+            super.update(meal, meal.id());
         }
         return ResponseEntity.ok().build();
     }

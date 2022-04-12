@@ -21,14 +21,52 @@ $(function () {
     $('.datetimepicker').datetimepicker({
         format: 'Y-m-d H:i'
     });
-    $('.datepicker').datetimepicker({
+
+    $('#startDate').datetimepicker({
         timepicker: false,
-        format: 'Y-m-d'
+        format: 'Y-m-d',
+        onShow: function(){
+            let endDateVal = jQuery('#endDate').val();
+            this.setOptions({
+                maxDate: endDateVal ? endDateVal : false
+            })
+        }
     });
-    $('.timepicker').datetimepicker({
+
+    $('#endDate').datetimepicker({
+        timepicker: false,
+        format: 'Y-m-d',
+        onShow: function(){
+            let startDateVal = jQuery('#startDate').val();
+            this.setOptions({
+                minDate: startDateVal ? startDateVal : false
+            })
+        }
+    });
+
+    $('#startTime').datetimepicker({
         datepicker: false,
-        format: 'H:i'
+        format: 'H:i',
+        onShow: function (){
+            let endTimeVal = jQuery('#endTime').val();
+            this.setOptions({
+                maxTime: endTimeVal ? endTimeVal : false
+            })
+        }
     });
+
+    $('#endTime').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        onShow: function (){
+            let startTimeVal = jQuery('#startTime').val();
+            this.setOptions({
+                minTime: startTimeVal ? startTimeVal : false
+            })
+        }
+    });
+
+
     makeEditable(
         $("#datatable").DataTable({
             "ajax": {

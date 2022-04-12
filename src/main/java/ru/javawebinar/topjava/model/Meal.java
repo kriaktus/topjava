@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
-import ru.javawebinar.topjava.to.MealTo;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -42,7 +41,8 @@ public class Meal extends AbstractBaseEntity {
 
     @Column(name = "calories", nullable = false)
     @Range(min = 10, max = 5000)
-    private int calories;
+    @NotNull
+    private Integer calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -54,17 +54,11 @@ public class Meal extends AbstractBaseEntity {
     public Meal() {
     }
 
-    public Meal(Integer id, LocalDateTime dateTime, String description, int calories) {
+    public Meal(Integer id, LocalDateTime dateTime, String description, Integer calories) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
-    }
-
-    public Meal(MealTo mealTo) {
-        this.dateTime = mealTo.getDateTime();
-        this.description = mealTo.getDescription();
-        this.calories = mealTo.getCalories();
     }
 
     public LocalDateTime getDateTime() {
@@ -75,7 +69,7 @@ public class Meal extends AbstractBaseEntity {
         return description;
     }
 
-    public int getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
@@ -95,7 +89,7 @@ public class Meal extends AbstractBaseEntity {
         this.description = description;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
