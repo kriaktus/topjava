@@ -326,7 +326,12 @@ Datasources advanced
     sslmode=require
     sslfactory=org.postgresql.ssl.NonValidatingFactory
 ```    
-
+#### Внимание: Heroku больше не деплоит c GitHub, [нужна деплоить через CLI](https://stackoverflow.com/a/71895325/548473)
+1. Устанавливаем локально [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli)
+2. Убеждаемся, что в локальный репозиторий все запушено в ветку master [и делаем](https://help.heroku.com/CKVOUPSY/how-to-switch-deployment-method-from-github-to-heroku-git-with-all-the-changes-app-code-available-in-a-github-repo)   
+`heroku git:remote -a [app-name]`  
+`git push heroku master:main`
+-----------------
 -  Ресурсы:
    -  <a href="https://www.heroku.com/">PaaS-платформа Heroku</a></h3>
    -  Конфигурирование приложения для запуска через <a href="https://devcenter.heroku.com/articles/java-webapp-runner">Tomcat-based Java Web</a>
